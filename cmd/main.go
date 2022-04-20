@@ -1,15 +1,20 @@
 package main
 
 import (
-	"github.com/DanilKl4/crud-gorm/pkg/handlers"
-	"github.com/labstack/echo/v4"
+	"flag"
+	"github.com/DanilKl4/crud-gorm/internal/app"
+	"log"
+)
+
+var (
+	f = flag.String("p", "5000", "port on the server listening on")
 )
 
 func main() {
-	e := echo.New()
-	e.GET("/message/:id", handlers.Get)
-	e.POST("/message", handlers.Create)
-	e.PUT("/message/:id", handlers.Update)
-	e.DELETE("/message/:id", handlers.Delete)
-	e.Logger.Fatal(e.Start(":5000"))
+	flag.Parse()
+
+	err := app.Run(*f)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
